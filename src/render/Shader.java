@@ -18,6 +18,7 @@ import static org.lwjgl.opengl.GL20.glLinkProgram;
 import static org.lwjgl.opengl.GL20.glShaderSource;
 import static org.lwjgl.opengl.GL20.glUniform1f;
 import static org.lwjgl.opengl.GL20.glUniform1i;
+import static org.lwjgl.opengl.GL20.glUniform3fv;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL20.glValidateProgram;
@@ -31,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 
@@ -138,6 +140,16 @@ public class Shader {
 
 		if (location != -1) {
 			glUniformMatrix4fv(location, false, buffer);
+		}
+	}
+	
+	public void setUniform(String name, Vector3f value) {
+		int location = glGetUniformLocation(program, name);
+		FloatBuffer buffer = BufferUtils.createFloatBuffer(3);
+		value.get(buffer);
+
+		if (location != -1) {
+			glUniform3fv(location, buffer);
 		}
 	}
 

@@ -29,6 +29,7 @@ public class Principal implements Runnable{
 	private Model model = null;
 	private Camera camera;
 	private Transform transform;
+	private Vector3f lightPos = new Vector3f(1.2f, 1.0f, 2.0f);
 	
 	public void start() {
 		thread = new Thread(this, "Jogo");
@@ -56,10 +57,24 @@ public class Principal implements Runnable{
 		camera = new Camera();
 		transform = new Transform();
 		
-		camera.setPerspective((float)Math.toRadians(90), (float)window.getWidth()/ (float)window.getHeight() , 0.01f, 100.0f);
-		camera.setPosicao(new Vector3f(0.1f, 1.0f, 3.0f));
+		camera.setPerspective((float)Math.toRadians(90), (float)window.getWidth()/ (float)window.getHeight() , 0.01f, 1000.0f);
+		camera.setPosicao(new Vector3f(0.1f, 1.0f, 5.0f));
 		Shader.loadAllShaders();
-//		Shader.ASSIMP_LOADER.bind();
+		Shader.ASSIMP_LOADER.bind();
+//		Shader.ASSIMP_LOADER.setUniform("light.position", lightPos);
+//		Shader.ASSIMP_LOADER.setUniform("viewPos", camera.getPosicao());
+//		// bronze values
+//		//0.2125	0.1275	0.054
+//		Shader.ASSIMP_LOADER.setUniform("light.ambient", new Vector3f(0.2125f, 0.1275f, 0.054f));
+//		
+//		//0.714	0.4284	0.18144
+//		Shader.ASSIMP_LOADER.setUniform("light.diffuse", new Vector3f(0.714f, 0.4284f, 0.18144f));
+//		//0.393548	0.271906	0.166721
+//		Shader.ASSIMP_LOADER.setUniform("light.specular", new Vector3f(0.393548f, 0.271906f, 0.166721f));
+//		
+//		Shader.ASSIMP_LOADER.setUniform("material.specular", new Vector3f(0.5f,0.5f,0.5f));
+//		
+//		Shader.ASSIMP_LOADER.setUniform("material.shininess", 0.2f);
 	
 		model = new Model("./cyborg/cyborg.obj");
 		
@@ -74,12 +89,18 @@ public class Principal implements Runnable{
 		if(window.getInput().isKeyPressed(GLFW_KEY_UP)) {
 //			transform.setEscala(new Vector3f(2.0f, 0.5f, 3.0f));
 		}
+		if(window.getInput().isKeyDown(GLFW_KEY_LEFT)) {
+			transform.getRotacao().rotateAxis((float)Math.toRadians(1), 1, 1, 0);
+		}
+		if(window.getInput().isKeyDown(GLFW_KEY_RIGHT)) {
+			transform.getRotacao().rotateAxis((float)Math.toRadians(-1), 1, 0, 1);
+		}
 		window.update();
 	}
 	
 	private void render() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
+		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		Shader.ASSIMP_LOADER.bind();
 		Shader.ASSIMP_LOADER.setCamera(camera);
 		Shader.ASSIMP_LOADER.setTransformacao(transform);

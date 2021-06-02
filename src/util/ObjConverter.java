@@ -5,6 +5,14 @@ import java.util.List;
 
 public class ObjConverter {
 	
+	public static int[] convertToSimpleIndices(List<Integer> indices) {
+		int[] simpleIndices = new int[indices.size()];
+		for(int i=0;i<indices.size();i++) {
+			simpleIndices[i] = indices.get(i);
+		}
+		return simpleIndices;
+	}
+	
 	public static float[] convertToGiantFloat(List<Vertex> vertices) {
 		float[] allIn = new float[vertices.size() * 14];
 		int j = 0;
@@ -13,13 +21,13 @@ public class ObjConverter {
 			allIn[j++] = vertices.get(i).Position.x;
 			allIn[j++] = vertices.get(i).Position.y;
 			allIn[j++] = vertices.get(i).Position.z;
+			//textura
+			allIn[j++] = vertices.get(i).TexCoords.x;
+			allIn[j++] = vertices.get(i).TexCoords.y;
 			//normal
 			allIn[j++] = vertices.get(i).Normal.x;
 			allIn[j++] = vertices.get(i).Normal.y;
 			allIn[j++] = vertices.get(i).Normal.z;
-			//textura
-			allIn[j++] = vertices.get(i).TexCoords.x;
-			allIn[j++] = vertices.get(i).TexCoords.y;
 			//tangent
 			allIn[j++] = vertices.get(i).Tangent.x;
 			allIn[j++] = vertices.get(i).Tangent.y;

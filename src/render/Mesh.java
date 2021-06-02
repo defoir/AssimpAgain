@@ -53,6 +53,7 @@ public class Mesh {
 				number = String.valueOf(heightNr);
 				heightNr++;
 			}
+			
 			glUniform1i(glGetUniformLocation(shader.program, (name + number).toString()), i);
 //			System.out.println(textures.get(i).id);
 			glBindTexture(GL_TEXTURE_2D, textures.get(i).id);
@@ -61,7 +62,7 @@ public class Mesh {
 		// draw the mesh
 		glBindVertexArray(VAO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-//		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+		//glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 		glDrawArrays(GL_TRIANGLES, 0, indices.size());
 		glBindVertexArray(0);
 		
@@ -76,44 +77,46 @@ public class Mesh {
 		
 		glBindVertexArray(VAO);
 		
+		
+		
+		
+		
+		int[] simpleIndices = ObjConverter.convertToSimpleIndices(indices);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, createBuffer(simpleIndices), GL_STATIC_DRAW);
+		
 //		float[] allIn = ObjConverter.convertToGiantFloat(vertices);
-//		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+//		glBindBuffer(GL_ARRAY_BUFFER, 1);
 //		glBufferData(GL_ARRAY_BUFFER, createBuffer(allIn), GL_STATIC_DRAW);
 		
 		
 		float[] posicao = ObjConverter.convertVertexPositionToFloat(vertices);
 		glBindBuffer(GL_ARRAY_BUFFER, 1);
 		glBufferData(GL_ARRAY_BUFFER, createBuffer(posicao), GL_STATIC_DRAW);
-		
-		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * Integer.BYTES, GL_STATIC_DRAW);
-		
 		// vertices
 		glVertexAttribPointer(1, 3, GL_FLOAT, false, 3 * Float.BYTES, 0);
 		glEnableVertexAttribArray(1);
 		
-		float[] normal = ObjConverter.convertVertexNormalToFloat(vertices);
+		float[] texcoords = ObjConverter.convertVertexTexCoordsToFloat(vertices);
 		glBindBuffer(GL_ARRAY_BUFFER, 2);
-		glBufferData(GL_ARRAY_BUFFER, createBuffer(normal), GL_STATIC_DRAW);
-		
-		glVertexAttribPointer(2, 3, GL_FLOAT, false,  3 * Float.BYTES,0);
+		glBufferData(GL_ARRAY_BUFFER, createBuffer(texcoords), GL_STATIC_DRAW);
+		glVertexAttribPointer(2, 2, GL_FLOAT, false,  2 * Float.BYTES, 0);
 		glEnableVertexAttribArray(2);
 		
-		// normals
-//		glVertexAttribPointer(1, 3, GL_FLOAT, false,  3 * Float.BYTES,3 * Float.BYTES);
-//		glEnableVertexAttribArray(1);
-		
-		float[] texcoords = ObjConverter.convertVertexTexCoordsToFloat(vertices);
+		float[] normal = ObjConverter.convertVertexNormalToFloat(vertices);
 		glBindBuffer(GL_ARRAY_BUFFER, 3);
-		glBufferData(GL_ARRAY_BUFFER, createBuffer(texcoords), GL_STATIC_DRAW);
-		glVertexAttribPointer(3, 2, GL_FLOAT, false,  2 * Float.BYTES, 0);
+		glBufferData(GL_ARRAY_BUFFER, createBuffer(normal), GL_STATIC_DRAW);
+		
+		glVertexAttribPointer(3, 3, GL_FLOAT, false,  3 * Float.BYTES,0);
 		glEnableVertexAttribArray(3);
 		
 		// tex coordinates
-//		glVertexAttribPointer(2, 2, GL_FLOAT, false,  2 * Float.BYTES, 6 * Float.BYTES);
+//		glVertexAttribPointer(2, 2, GL_FLOAT, false,  2 * Float.BYTES, 3 * Float.BYTES);
 //		glEnableVertexAttribArray(2);
 		
+		// normals
+//		glVertexAttribPointer(3, 3, GL_FLOAT, false,  3 * Float.BYTES,5 * Float.BYTES);
+//		glEnableVertexAttribArray(3);
 		
 		float[] tangents = ObjConverter.convertVertexTangentToFloat(vertices);
 		glBindBuffer(GL_ARRAY_BUFFER, 4);
@@ -122,8 +125,8 @@ public class Mesh {
 		glEnableVertexAttribArray(4);
 		
 		// tangents
-//		glVertexAttribPointer(3, 3, GL_FLOAT, false, 3 * Float.BYTES, 8 * Float.BYTES);
-//		glEnableVertexAttribArray(3);
+//		glVertexAttribPointer(4, 3, GL_FLOAT, false, 3 * Float.BYTES, 8 * Float.BYTES);
+//		glEnableVertexAttribArray(4);
 		
 		
 		float[] bitangents = ObjConverter.convertVertexBitangentToFloat(vertices);
@@ -133,8 +136,8 @@ public class Mesh {
 		glEnableVertexAttribArray(5);
 		
 		// bitangents
-//		glVertexAttribPointer(4, 3, GL_FLOAT, false, 3 * Float.BYTES, 11 * Float.BYTES);
-//		glEnableVertexAttribArray(4);
+//		glVertexAttribPointer(5, 3, GL_FLOAT, false, 3 * Float.BYTES, 11 * Float.BYTES);
+//		glEnableVertexAttribArray(5);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
