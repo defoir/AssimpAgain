@@ -76,7 +76,7 @@ public class Principal implements Runnable{
 //		
 //		Shader.ASSIMP_LOADER.setUniform("material.shininess", 0.2f);
 	
-		model = new Model("./cyborg/cyborg.obj");
+		model = new Model("./tennis/tennis.obj");
 		
 //		Shader.ASSIMP_LOADER.setUniform("texture_diffuse1", 0);
 	}

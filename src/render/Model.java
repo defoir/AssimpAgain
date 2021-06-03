@@ -113,7 +113,7 @@ public class Model {
 					Vector2f vec = new Vector2f();
 					vec.x = mesh.mTextureCoords(0).get(i).x();
 					vec.y = mesh.mTextureCoords(0).get(i).y();
-					vertex.TexCoords = vec;
+					vertex.TexCoords = new Vector2f(vec);
 				} else {
 					vertex.TexCoords = new Vector2f(0.0f, 0.0f);
 				}

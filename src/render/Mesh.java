@@ -62,12 +62,12 @@ public class Mesh {
 		// draw the mesh
 		glBindVertexArray(VAO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		//glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-		glDrawArrays(GL_TRIANGLES, 0, indices.size());
+		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+		//glDrawArrays(GL_TRIANGLES, 0, indices.size());
 		glBindVertexArray(0);
 		
 		// set back to default
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(0);
 	}
 	
 	private void setupMesh() {
@@ -78,66 +78,69 @@ public class Mesh {
 		glBindVertexArray(VAO);
 		
 		
-		
-		
-		
 		int[] simpleIndices = ObjConverter.convertToSimpleIndices(indices);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, createBuffer(simpleIndices), GL_STATIC_DRAW);
 		
-//		float[] allIn = ObjConverter.convertToGiantFloat(vertices);
-//		glBindBuffer(GL_ARRAY_BUFFER, 1);
-//		glBufferData(GL_ARRAY_BUFFER, createBuffer(allIn), GL_STATIC_DRAW);
+		float[] allIn = ObjConverter.convertToGiantFloat(vertices);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, createBuffer(allIn), GL_STATIC_DRAW);
+		
+		// position / texCoords / normal / tangents / bitangents
+		// x  y  z     x   y     x  y  z    x  y  z     x  y  z
+		// 0  4  8     12  16    20 24 28  32 36 40    44 48 52
+	    // 56 60 64	   68  72    76 80 84  88 92 96  100 104 108
 		
 		
-		float[] posicao = ObjConverter.convertVertexPositionToFloat(vertices);
-		glBindBuffer(GL_ARRAY_BUFFER, 1);
-		glBufferData(GL_ARRAY_BUFFER, createBuffer(posicao), GL_STATIC_DRAW);
+//		float[] posicao = ObjConverter.convertVertexPositionToFloat(vertices);
+//		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+//		glBufferData(GL_ARRAY_BUFFER, createBuffer(posicao), GL_STATIC_DRAW);
+		
 		// vertices
-		glVertexAttribPointer(1, 3, GL_FLOAT, false, 3 * Float.BYTES, 0);
-		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(0, 3, GL_FLOAT, false, 14 * Float.BYTES, 0);
+		glEnableVertexAttribArray(0);
 		
-		float[] texcoords = ObjConverter.convertVertexTexCoordsToFloat(vertices);
-		glBindBuffer(GL_ARRAY_BUFFER, 2);
-		glBufferData(GL_ARRAY_BUFFER, createBuffer(texcoords), GL_STATIC_DRAW);
-		glVertexAttribPointer(2, 2, GL_FLOAT, false,  2 * Float.BYTES, 0);
-		glEnableVertexAttribArray(2);
+//		float[] texcoords = ObjConverter.convertVertexTexCoordsToFloat(vertices);
+//		glBindBuffer(GL_ARRAY_BUFFER, 1);
+//		glBufferData(GL_ARRAY_BUFFER, createBuffer(texcoords), GL_STATIC_DRAW);
+//		glVertexAttribPointer(1, 2, GL_FLOAT, false,  0, 0L);
+//		glEnableVertexAttribArray(1);
 		
-		float[] normal = ObjConverter.convertVertexNormalToFloat(vertices);
-		glBindBuffer(GL_ARRAY_BUFFER, 3);
-		glBufferData(GL_ARRAY_BUFFER, createBuffer(normal), GL_STATIC_DRAW);
-		
-		glVertexAttribPointer(3, 3, GL_FLOAT, false,  3 * Float.BYTES,0);
-		glEnableVertexAttribArray(3);
-		
-		// tex coordinates
-//		glVertexAttribPointer(2, 2, GL_FLOAT, false,  2 * Float.BYTES, 3 * Float.BYTES);
+//		float[] normal = ObjConverter.convertVertexNormalToFloat(vertices);
+//		glBindBuffer(GL_ARRAY_BUFFER, 2);
+//		glBufferData(GL_ARRAY_BUFFER, createBuffer(normal), GL_STATIC_DRAW);
+//		
+//		glVertexAttribPointer(2, 3, GL_FLOAT, false,  3 * Float.BYTES,0L);
 //		glEnableVertexAttribArray(2);
 		
+		// tex coordinates
+		glVertexAttribPointer(1, 2, GL_FLOAT, false,  14 * Float.BYTES, 3 * Float.BYTES);
+		glEnableVertexAttribArray(1);
+		
 		// normals
-//		glVertexAttribPointer(3, 3, GL_FLOAT, false,  3 * Float.BYTES,5 * Float.BYTES);
+		glVertexAttribPointer(2, 3, GL_FLOAT, false,  14 * Float.BYTES,5 * Float.BYTES);
+		glEnableVertexAttribArray(2);
+		
+//		float[] tangents = ObjConverter.convertVertexTangentToFloat(vertices);
+//		glBindBuffer(GL_ARRAY_BUFFER, 3);
+//		glBufferData(GL_ARRAY_BUFFER, createBuffer(tangents), GL_STATIC_DRAW);
+//		glVertexAttribPointer(3, 2, GL_FLOAT, false,  3 * Float.BYTES, 0L);
 //		glEnableVertexAttribArray(3);
 		
-		float[] tangents = ObjConverter.convertVertexTangentToFloat(vertices);
-		glBindBuffer(GL_ARRAY_BUFFER, 4);
-		glBufferData(GL_ARRAY_BUFFER, createBuffer(tangents), GL_STATIC_DRAW);
-		glVertexAttribPointer(4, 2, GL_FLOAT, false,  3 * Float.BYTES, 0);
-		glEnableVertexAttribArray(4);
-		
 		// tangents
-//		glVertexAttribPointer(4, 3, GL_FLOAT, false, 3 * Float.BYTES, 8 * Float.BYTES);
+		glVertexAttribPointer(3, 3, GL_FLOAT, false, 14 * Float.BYTES, 8 * Float.BYTES);
+		glEnableVertexAttribArray(3);
+		
+		
+//		float[] bitangents = ObjConverter.convertVertexBitangentToFloat(vertices);
+//		glBindBuffer(GL_ARRAY_BUFFER, 4);
+//		glBufferData(GL_ARRAY_BUFFER, createBuffer(bitangents), GL_STATIC_DRAW);
+//		glVertexAttribPointer(4, 3, GL_FLOAT, false, 3 * Float.BYTES, 0L);
 //		glEnableVertexAttribArray(4);
 		
-		
-		float[] bitangents = ObjConverter.convertVertexBitangentToFloat(vertices);
-		glBindBuffer(GL_ARRAY_BUFFER, 5);
-		glBufferData(GL_ARRAY_BUFFER, createBuffer(bitangents), GL_STATIC_DRAW);
-		glVertexAttribPointer(5, 3, GL_FLOAT, false, 3 * Float.BYTES, 0);
-		glEnableVertexAttribArray(5);
-		
 		// bitangents
-//		glVertexAttribPointer(5, 3, GL_FLOAT, false, 3 * Float.BYTES, 11 * Float.BYTES);
-//		glEnableVertexAttribArray(5);
+		glVertexAttribPointer(4, 3, GL_FLOAT, false, 14 * Float.BYTES, 11 * Float.BYTES);
+		glEnableVertexAttribArray(4);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

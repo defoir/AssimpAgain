@@ -44,10 +44,9 @@ public class ObjConverter {
 		float[] posicoes = new float[vertices.size() * 3];
 		int j = 0;
 		for(int i=0;i<vertices.size();i++) {
-			posicoes[j] = vertices.get(i).Position.x;
-			posicoes[j+1] = vertices.get(i).Position.y;
-			posicoes[j+2] = vertices.get(i).Position.z;
-			j = j+3;
+			posicoes[j++] = vertices.get(i).Position.x;
+			posicoes[j++] = vertices.get(i).Position.y;
+			posicoes[j++] = vertices.get(i).Position.z;
 		}
 		
 		return posicoes;
@@ -57,10 +56,9 @@ public class ObjConverter {
 		float[] normal = new float[vertices.size() * 3];
 		int j = 0;
 		for(int i=0;i<vertices.size();i++) {
-			normal[j] = vertices.get(i).Normal.x;
-			normal[j+1] = vertices.get(i).Normal.y;
-			normal[j+2] = vertices.get(i).Normal.z;
-			j = j + 3;
+			normal[j++] = vertices.get(i).Normal.x;
+			normal[j++] = vertices.get(i).Normal.y;
+			normal[j++] = vertices.get(i).Normal.z;
 		}
 		return normal;
 	}
@@ -69,9 +67,8 @@ public class ObjConverter {
 		float[] texcoords = new float[vertices.size() * 2];
 		int j = 0;
 		for(int i=0;i<vertices.size();i++) {
-			texcoords[j] = vertices.get(i).TexCoords.x;
-			texcoords[j+1] = vertices.get(i).TexCoords.y;
-			j = j + 2;
+			texcoords[j++] = vertices.get(i).TexCoords.x;
+			texcoords[j++] = vertices.get(i).TexCoords.y;
 		}
 		return texcoords;
 	}
@@ -80,10 +77,9 @@ public class ObjConverter {
 		float[] tangent = new float[vertices.size() * 3];
 		int j = 0;
 		for(int i=0;i<vertices.size();i++) {
-			tangent[j] = vertices.get(i).Tangent.x;
-			tangent[j+1] = vertices.get(i).Tangent.y;
-			tangent[j+2] = vertices.get(i).Tangent.z;
-			j = j + 3;
+			tangent[j++] = vertices.get(i).Tangent.x;
+			tangent[j++] = vertices.get(i).Tangent.y;
+			tangent[j++] = vertices.get(i).Tangent.z;
 		}
 		return tangent;
 	}
@@ -92,10 +88,9 @@ public class ObjConverter {
 		float[] bitangent = new float[vertices.size() * 3];
 		int j = 0;
 		for(int i=0;i<vertices.size();i++) {
-			bitangent[j] = vertices.get(i).Bitangent.x;
-			bitangent[j+1] = vertices.get(i).Bitangent.y;
-			bitangent[j+2] = vertices.get(i).Bitangent.z;
-			j = j + 3;
+			bitangent[j++] = vertices.get(i).Bitangent.x;
+			bitangent[j++] = vertices.get(i).Bitangent.y;
+			bitangent[j++] = vertices.get(i).Bitangent.z;
 		}
 		return bitangent;
 	}
